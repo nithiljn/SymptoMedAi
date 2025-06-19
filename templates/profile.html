@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block head %}
+<style>
+  /* Container Styling */
+  .profile-container {
+    perspective: 1000px;
+    max-width: 600px;
+    margin: 5rem auto;
+    padding: 2rem;
+  }
+
+  /* 3D Slide-and-Lift Animation for Card */
+  .profile-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    transform: translateX(-100%) translateZ(-200px) rotateY(-45deg);
+    animation: slideLiftIn 0.8s ease forwards;
+  }
+
+  #editForm.profile-card {
+    display: none;
+    transform: translateX(100%) translateZ(-200px) rotateY(45deg);
+  }
+
+  /* Header Styling */
+  .card-header {
+    background: linear-gradient(135deg, #3529a1 0%, #2a5298 100%);
+    color: #fff;
+    padding: 1rem;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Body Styling */
+  .card-body {
+    padding: 1.5rem;
+  }
+
+  .profile-info p {
+    margin: 0.75rem 0;
+    font-size: 1.1rem;
+    color: #333;
+  }
+
+  .profile-info strong {
+    color: #3529a1;
+    font-weight: 600;
+  }
+
+  /* Form Fields */
+  .form-field {
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    transform: translateZ(-20px);
+    animation: fieldLiftIn 0.5s ease forwards;
+  }
+
+  .form-field:nth-child(1) { animation-delay: 0.2s; }
+  .form-field:nth-child(2) { animation-delay: 0.3s; }
+  .form-field:nth-child(3) { animation-delay: 0.4s; }
+  .form-field:nth-child(4) { animation-delay: 0.5s; }
+
+  .form-control, .form-select {
+    border: 2px solid #3529a1;
+    border-radius: 8px;
+    padding: 0.75rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .form-control:focus, .form-select:focus {
+    transform: translateZ(10px);
+    box-shadow: 0 5px 15px rgba(53, 41, 161, 0.3);
+    border-color: #2a5298;
+    outline: none;
+  }
+
+  /* Unique 3D Prism Buttons */
+  .btn-prism {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #fff;
+    transform-style: preserve-3d;
+    transform: translateZ(0);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .btn-prism::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+    transform: rotate(30deg) translateZ(-10px);
+    transition: transform 0.5s ease;
+    z-index: -1;
+  }
+
+  .btn-prism:hover {
+    transform: translateZ(20px) scale(1.05);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  .btn-prism:hover::before {
+    transform: rotate(30deg) translateZ(-10px) translateX(50%) translateY(50%);
+  }
+
+  .btn-prism-primary {
+    background: linear-gradient(135deg, #3529a1, #2a5298);
+  }
+
+  .btn-prism-success {
+    background: linear-gradient(135deg, #28a745, #218838);
+  }
+
+  .btn-prism-secondary {
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+  }
+
+  /* Button Group */
+  .button-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  /* Animations */
+  @keyframes slideLiftIn {
+    0% { transform: translateX(-100%) translateZ(-200px) rotateY(-45deg); opacity: 0; }
+    100% { transform: translateX(0) translateZ(0) rotateY(0deg); opacity: 1; }
+  }
+
+  @keyframes fieldLiftIn {
+    0% { opacity: 0; transform: translateZ(-20px); }
+    100% { opacity: 1; transform: translateZ(0); }
+  }
+
+  /* Glass Effect Overlay */
+  .profile-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 15px;
+    z-index: -1;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+  <h2 class="text-center mb-4" style="color: #3529a1; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);">User Profile</h2>
+  
+  {% if profile_info %}
+  <!-- Display existing profile -->
+  <div class="profile-card">
+    <div class="card-header">
+      <h3>{{ session['username'] }}'s Profile</h3>
+    </div>
+    <div class="card-body">
+      <div class="profile-info">
+        <p><strong>Phone Number:</strong> {{ profile_info.phone_number }}</p>
+        <p><strong>Age:</strong> {{ profile_info.age }}</p>
+        <p><strong>Gender:</strong> {{ profile_info.gender }}</p>
+        <p><strong>Address:</strong> {{ profile_info.address }}</p>
+      </div>
+      <div class="button-group">
+        <button class="btn-prism btn-prism-primary" onclick="document.getElementById('editForm').style.display='block'; this.style.display='none';">Edit Profile</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit form (hidden by default) -->
+  <div id="editForm" class="profile-card mt-3">
+    <div class="card-header">
+      <h3>Edit Profile</h3>
+    </div>
+    <div class="card-body">
+      <form method="POST" action="{{ url_for('profile') }}">
+        <div class="form-field">
+          <label for="phone_number" class="form-label">Phone Number</label>
+          <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ profile_info.phone_number }}" required>
+        </div>
+        <div class="form-field">
+          <label for="age" class="form-label">Age</label>
+          <input type="number" class="form-control" id="age" name="age" value="{{ profile_info.age }}" min="0" required>
+        </div>
+        <div class="form-field">
+          <label for="gender" class="form-label">Gender</label>
+          <select class="form-control" id="gender" name="gender" required>
+            <option value="Male" {% if profile_info.gender == 'Male' %}selected{% endif %}>Male</option>
+            <option value="Female" {% if profile_info.gender == 'Female' %}selected{% endif %}>Female</option>
+            <option value="Other" {% if profile_info.gender == 'Other' %}selected{% endif %}>Other</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="address" class="form-label">Address</label>
+          <textarea class="form-control" id="address" name="address" required>{{ profile_info.address }}</textarea>
+        </div>
+        <div class="button-group">
+          <button type="submit" class="btn-prism btn-prism-success">Update Profile</button>
+          <button type="button" class="btn-prism btn-prism-secondary" onclick="document.getElementById('editForm').style.display='none'; document.querySelector('.btn-prism-primary').style.display='block';">Cancel</button>
+        </div>
+      </`  </form>
+    </div>
+  </div>
+
+  {% else %}
+  <!-- Form for new users -->
+  <div class="profile-card">
+    <div class="card-header">
+      <h3>Welcome, {{ session['username'] }}! Please Enter Your Details</h3>
+    </div>
+    <div class="card-body">
+      <form method="POST" action="{{ url_for('profile') }}">
+        <div class="form-field">
+          <label for="phone_number" class="form-label">Phone Number</label>
+          <input type="text" class="form-control" id="phone_number" name="phone_number" required>
+        </div>
+        <div class="form-field">
+          <label for="age" class="form-label">Age</label>
+          <input type="number" class="form-control" id="age" name="age" min="0" required>
+        </div>
+        <div class="form-field">
+          <label for="gender" class="form-label">Gender</label>
+          <select class="form-control" id="gender" name="gender" required>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="address" class="form-label">Address</label>
+          <textarea class="form-control" id="address" name="address" required></textarea>
+        </div>
+        <div class="button-group">
+          <button type="submit" class="btn-prism btn-prism-success">Save Profile</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

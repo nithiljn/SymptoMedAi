@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %} - SymptoMedAI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <style>
+      body {
+        background: linear-gradient(135deg, #1f2937 0%, #cfdef3 100%);
+        min-height: 100vh;
+        color: #333;
+        font-family: 'Helvetica', 'Arial', sans-serif;
+      }
+
+      .navbar {
+        background:none !important; /* Semi-transparent dark blue */
+        padding: 0.5rem 1.5rem; /* Reduced padding for smaller size */
+        animation: slideDown3D 0.8s ease-in-out forwards;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        transform-style: preserve-3d;
+      }
+
+      .navbar-brand {
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 1.4rem; /* Slightly smaller */
+        display: flex;
+        align-items: center;
+        transition: transform 0.3s ease;
+      }
+
+      .navbar-brand img {
+        width: 28px; /* Reduced logo size */
+        height: 28px;
+        margin-right: 10px;
+        animation: pulseLogo 1.5s infinite ease-in-out;
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+      }
+
+      .navbar-brand:hover {
+        transform: scale(1.05) translateZ(10px); /* 3D hover effect */
+      }
+
+      .navbar-nav {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        perspective: 1000px;
+      }
+
+      .nav-item {
+        margin: 0 15px; /* Reduced spacing */
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.3s ease;
+      }
+
+      .nav-item:hover {
+        transform: translateZ(20px) rotateY(15deg); /* Enhanced 3D hover */
+      }
+
+      .nav-link {
+        color: #ffffff !important;
+        font-size: 1rem; /* Smaller font */
+       background: transparent;
+        padding: 6px 12px; /* Reduced padding */
+        border-radius: 5px;
+        transition: color 0.3s ease, transform 0.3s ease, background 0.3s ease;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      }
+
+      .nav-link:hover {
+        color: #a3c9e6 !important;
+        transform: translateZ(10px);
+        background-color: transparent;
+      }
+
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: transparent;
+        transition: width 0.3s ease;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      .content-container {
+        padding: 2rem;
+        animation: fadeIn 0.8s ease-in;
+      }
+
+      .search-form {
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-right: 15px;
+      }
+
+      .search-input {
+        width: 0;
+        padding: 5px;
+        border: none;
+        border-radius: 20px;
+        transition: width 0.4s ease-in-out;
+        background: rgba(255, 255, 255, 0.9);
+        outline: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .search-input:focus, .search-input.active {
+        width: 200px;
+        padding: 5px 15px;
+      }
+
+      .search-btn {
+        background: none;
+        border: none;
+        color: #ffffff;
+        font-size: 1.2rem;
+        margin-left: 10px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+
+      .search-btn:hover {
+        color: #a3c9e6;
+      }
+
+      .user-initial {
+        background: rgba(255, 255, 255, 0.9);
+        color: #0a2540;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-right: 10px;
+        transition: transform 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        cursor: pointer; /* Make it clickable */
+      }
+
+      .user-initial:hover {
+        transform: scale(1.1) rotateZ(10deg);
+      }
+
+      .logout-link {
+        color: #ffffff;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      }
+
+      .logout-link:hover {
+        color: #a3c9e6;
+      }
+
+      .auth-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .alert {
+        margin-bottom: 1rem;
+        animation: fadeIn 0.5s ease-in;
+      }
+
+      @keyframes slideDown3D {
+        0% {
+          transform: translateY(-100%) translateZ(-50px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0) translateZ(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes pulseLogo {
+        0% { transform: scale(1) translateZ(0); }
+        50% { transform: scale(1.1) translateZ(5px); }
+        100% { transform: scale(1) translateZ(0); }
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      .transparent-navbar {
+    background-color: transparent !important;
+    box-shadow: none !important; /* Optional: remove shadow if any */
+}
+
+.transparent-navbar .navbar-collapse {
+    background-color: transparent !important;
+}
+
+    </style>
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    {% if 'loggedin' in session %}
+    <nav class="navbar navbar-expand-lg transparent-navbar">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+          <img src="{{ url_for('static', filename='blc.png') }}" alt="SymptoMedAI Logo"> SymptoMedAI
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="/blog">Blog</a></li>
+            <li class="nav-item"><a class="nav-link" href="/appointments">Appointments</a></li>
+          </ul>
+          <form class="search-form" action="/search" method="GET">
+            <input type="text" class="search-input" name="query" placeholder="Search..." id="searchInput">
+            <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
+          </form>
+          <div class="auth-group">
+            <a href="{{ url_for('profile') }}" class="user-initial">{{ session['username'][0] }}</a>
+            <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    
+    {% endif %}
+
+    <div class="content-container">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </div>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    {% if 'loggedin' in session %}
+    <script>
+      const searchInput = document.getElementById('searchInput');
+      const searchBtn = document.querySelector('.search-btn');
+      searchBtn.addEventListener('click', (e) => {
+        if (searchInput.classList.contains('active') && !searchInput.value) {
+          e.preventDefault();
+          searchInput.classList.remove('active');
+        } else if (!searchInput.classList.contains('active')) {
+          e.preventDefault();
+          searchInput.classList.add('active');
+          searchInput.focus();
+        }
+      });
+      document.addEventListener('click', (e) => {
+        if (!searchBtn.contains(e.target) && !searchInput.contains(e.target) && !searchInput.value) {
+          searchInput.classList.remove('active');
+        }
+      });
+    </script>
+    {% endif %}
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

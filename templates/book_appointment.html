@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Book Appointment{% endblock %}
+
+{% block head %}
+<style>
+  .booking-container {
+    max-width: 600px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+  }
+  .booking-container h2 {
+    color: #3529a1;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  .form-group label {
+    display: block;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  .btn-submit {
+    background: #3529a1;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .btn-submit:hover {
+    background: #2a207f;
+  }
+  .doctor-info {
+    background: #f8fbff;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border-left: 5px solid #3529a1;
+  }
+  .doctor-info p {
+    margin: 0.5rem 0;
+    color: #333;
+  }
+  .doctor-info strong {
+    color: #3529a1;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="booking-container">
+  <h2>Book Appointment</h2>
+  
+  <div class="doctor-info">
+    <p><strong>Doctor Name:</strong> {{ doctor.doctor_name }}</p>
+    <p><strong>Specialist:</strong> {{ doctor.specialist }}</p>
+    <p><strong>Hospital:</strong> {{ doctor.hospital_name }}</p>
+    <p><strong>Location:</strong> {{ doctor.place }}, {{ doctor.pincode }}</p>
+    <p><strong>Contact:</strong> {{ doctor.contact_number }}</p>
+  </div>
+
+  <form action="{{ url_for('book_appointment', doctor_id=doctor.doctor_id) }}" method="post">
+    <div class="form-group">
+      <label for="patient_name">Patient Name</label>
+      <input type="text" id="patient_name" name="patient_name" required>
+    </div>
+    <div class="form-group">
+      <label for="age">Age</label>
+      <input type="number" id="age" name="age" min="1" max="150" required>
+    </div>
+    <div class="form-group">
+      <label for="gender">Gender</label>
+      <select id="gender" name="gender" required>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="appointment_date">Appointment Date</label>
+      <input type="date" id="appointment_date" name="appointment_date" required>
+    </div>
+    <div class="form-group">
+      <label for="visit_time">Visit Time</label>
+      <input type="time" id="visit_time" name="visit_time" required>
+    </div>
+    <button type="submit" class="btn-submit">Book Appointment</button>
+  </form>
+</div>
+{% endblock %}

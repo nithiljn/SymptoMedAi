@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}My Appointments{% endblock %}
+
+{% block head %}
+<style>
+  .appointments-container {
+    max-width: 900px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+  }
+  .appointments-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  .appointments-header h2 {
+    color: #3529a1;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0;
+  }
+  .appointment-card {
+    background: #f8fbff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border-left: 5px solid #3529a1;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .appointment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  .appointment-card p {
+    margin: 0.6rem 0;
+    color: #333;
+    font-size: 1rem;
+  }
+  .appointment-card strong {
+    color: #3529a1;
+    font-weight: 600;
+  }
+  .status {
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-block;
+  }
+  .status-pending {
+    background: #fff3e0;
+    color: #f57c00;
+  }
+  .status-confirmed {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+  .status-cancelled {
+    background: #ffebee;
+    color: #c62828;
+  }
+  .no-appointments {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    font-size: 1.1rem;
+    padding: 2rem;
+  }
+  .download-btn {
+    background: #3529a1;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9rem;
+    transition: background 0.3s ease;
+  }
+  .download-btn:hover {
+    background: #2a207f;
+  }
+  .appointment-actions {
+    margin-top: 1rem;
+    text-align: right;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="appointments-container">
+  <div class="appointments-header">
+    <h2>My Appointments</h2>
+  </div>
+  
+  {% if appointments %}
+    {% for appointment in appointments %}
+      <div class="appointment-card">
+        <p><strong>Appointment ID:</strong> {{ appointment.appointment_id }}</p>
+        <p><strong>Patient Name:</strong> {{ appointment.patient_name }}</p>
+        <p><strong>Doctor Name:</strong> {{ appointment.doctor_name }}</p>
+        <p><strong>Specialist:</strong> {{ appointment.specialist }}</p>
+        <p><strong>Hospital:</strong> {{ appointment.hospital_name }}</p>
+        <p><strong>Location:</strong> {{ appointment.place }}, {{ appointment.pincode }}</p>
+        <p><strong>Contact:</strong> {{ appointment.contact_number }}</p>
+        <p><strong>Date:</strong> {{ appointment.appointment_date.strftime('%Y-%m-%d') }}</p>
+        <p><strong>Time:</strong> {{ appointment.visit_time.strftime('%H:%M') }}</p>
+        <p><strong>Age:</strong> {{ appointment.age }}</p>
+        <p><strong>Gender:</strong> {{ appointment.gender }}</p>
+        <p><strong>Status:</strong> 
+          <span class="status status-{{ appointment.status.lower() }}">{{ appointment.status }}</span>
+        </p>
+        <p><strong>Booked On:</strong> {{ appointment.booking_time.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+        <div class="appointment-actions">
+          <a href="{{ url_for('download_appointment', appointment_id=appointment.appointment_id) }}" class="download-btn">Download</a>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="no-appointments">No appointments booked yet.</p>
+  {% endif %}
+</div>
+{% endblock %}
