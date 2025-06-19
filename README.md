@@ -1,8 +1,7 @@
 # 🤖 SymptoMedAi – AI-Powered Symptom Checker & Appointment Booking System
 ## 🖼️ Website Screenshot
 
-![Homepage](sympto
-.png)
+![Homepage](sympto.png)
 SymptoMedAi is an AI-integrated health assistant that allows users to:
 - 🧠 Predict diseases based on symptoms.
 - 💬 Interact with a medical chatbot for guidance.
