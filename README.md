@@ -28,27 +28,30 @@ This system is built to make healthcare more accessible, especially in native la
 ---
 
 ## 📂 Project Structure
-"""SymptoMedAi/
+
+```text
+SymptoMedAi/
 │
-├── Scripts/ # Python scripts
-├── static/ # Static assets (CSS, JS, Images)
-├── templates/ # HTML templates
-│ ├── index.html # Home page
-│ ├── chatbot.html # Chatbot interface
-│ ├── book_appointment.html # Booking page
-│ ├── login.html # Login form
-│ ├── register.html # Registration form
-│ ├── profile.html # User profile
-│ └── ... # Other pages (about, contact, etc.)
+├── Scripts/                        # Python scripts
+├── static/                         # Static assets (CSS, JS, Images)
+├── templates/                      # HTML templates
+│   ├── index.html                  # Home page
+│   ├── chatbot.html                # Chatbot interface
+│   ├── book_appointment.html       # Booking page
+│   ├── login.html                  # Login form
+│   ├── register.html               # Registration form
+│   ├── profile.html                # User profile
+│   └── ...                         # Other pages (about, contact, etc.)
 │
-├── main.py # Main backend server (Flask or similar)
-├── Medicine Recommendation System.ipynb # Jupyter notebook for ML
-├── nithil_rf.pkl # Trained Random Forest model
-├── nithil_svc.pkl # Trained SVC model
-├── *.csv # Data files (symptom-severity, medications, etc.)
-├── sympto.png # Logo or banner image
-├── README.md # You're here!
-└── pyvenv.cfg # Virtual environment config"""
+├── main.py                         # Main backend server (Flask or similar)
+├── Medicine Recommendation System.ipynb  # Jupyter notebook for ML
+├── nithil_rf.pkl                   # Trained Random Forest model
+├── nithil_svc.pkl                  # Trained SVC model
+├── *.csv                           # Data files (symptom-severity, medications, etc.)
+├── sympto.png                      # Logo or banner image
+├── README.md                       # You're here!
+└── pyvenv.cfg                      # Virtual environment config
+
 
 ## 🧠 Machine Learning
 
@@ -105,8 +108,6 @@ Edit
 python main.py
 Visit: http://127.0.0.1:5000/
 
-📸 Screenshots
-(Include screenshots of home page, chatbot, disease prediction, appointment form, etc.)
 
 🙋‍♂️ Developed By
 James Nithil
