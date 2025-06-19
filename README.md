@@ -1,16 +1,32 @@
-# Personalized-Medical-Recommendation-System-with-Machine-Learning
-Welcome to our cutting-edge Personalized Medical Recommendation System, a powerful platform designed to assist users in understanding and managing their health. Leveraging the capabilities of machine learning, our system analyzes user-input symptoms to predict potential diseases accurately. Here's what sets our system apart:
+# 🤖 SymptoMedAi – AI-Powered Symptom Checker & Appointment Booking System
+## 🖼️ Website Screenshot
 
-User-Friendly Interface: Our intuitive interface allows users to input their symptoms effortlessly, creating a seamless user experience.
+![Homepage](sympto
+.png)
+SymptoMedAi is an AI-integrated health assistant that allows users to:
+- 🧠 Predict diseases based on symptoms.
+- 💬 Interact with a medical chatbot for guidance.
+- 📅 Book doctor appointments based on AI feedback.
 
-Advanced Machine Learning Models: We've integrated state-of-the-art machine learning models that accurately predict diseases based on input symptoms, ensuring reliable and precise results.
+This system is built to make healthcare more accessible, especially in native languages like Tamil, and to bridge the gap between patients and medical professionals using technology.
 
-Tailored Recommendations: Receive personalized recommendations for the top 5 medicines, prescription details, and even workout routines based on the predicted disease.
+---
 
-Flask App Integration: The entire system is powered by a Flask web application, making it easily accessible to users. Experience the convenience of accessing healthcare recommendations from anywhere.
+## 🚀 Features
 
-Privacy and Security: We prioritize user privacy and data security. Your health information is handled with the utmost confidentiality, adhering to the highest industry standards.
+### 🩺 Disease Prediction
+- Input symptoms, and the AI model predicts potential diseases.
+- Trained using multiple ML models like Random Forest and SVM.
 
-Continuous Improvement: Our system is designed for continuous improvement. As we gather more data, the machine learning models evolve, providing increasingly accurate and relevant recommendations.
+### 💬 AI Chatbot
+- An interactive assistant to answer basic medical queries and guide users.
+- Integrated into the frontend via a chatbot interface.
 
-Take charge of your health with our Personalized Medical Recommendation System. Your well-being is our priority, and we're dedicated to providing you with the tools and insights you need for a healthier, happier life.
+### 🧑‍⚕️ Appointment Booking
+- Based on predictions or chatbot feedback, users can book appointments with doctors.
+- Includes user login, registration, and profile pages.
+
+---
+
+## 📂 Project Structure
+
